@@ -35,6 +35,13 @@ enum RunningMode {
 	LIGHT_CHASE = 4
 };
 
+enum ROV_RUNNING_STATE {
+	ROV_NO_HOST,			//ROV mode has been set from run selection but has not yet been defined a remote host
+	ROV_UNINITIALIZED_PI,		//ROV remote host defined - try to intialize - if fail return to no host
+	ROV_INITIALIZED_PI,		//ROV mode set - connected to host 
+	ROV_CONTROL_ENABLED_PI	//ROV mode set - connected to host - slave mode active
+};
+
 // ***************************************************
 // end Dependanct Classes and Structure
 // ***************************************************
@@ -76,6 +83,7 @@ void setup(){
 //int rangefinder_threshold_max = 125;
 int rangeCountsToTriggerAction = 800;
 int exampleCount = 11; //how many examples we have loaded
+ROV_RUNNING_STATE rovRunState = ROV_UNINITIALIZED_PI;
 
 /////////////////////// Setup for RUNNING MODE 2 (Autonymous Roaming) ////////////////
 //Roaming behavior values
@@ -101,9 +109,7 @@ void loop(){
   
   while (runningMode == ROV_SPI_PI)
   {
-	  // ROV mode
-
-	  
+	  // Responde to mode selection first
 	  if (buttonPressed())
 	  {
 		  setAllPixelsRGB(0, 10, 10);
@@ -111,12 +117,28 @@ void loop(){
 		  offChirp();   //make sure chirp is turned off
 		  showRunningMode(runningMode);
 		  delay(100);   //short delay to debounce button
-		  while (buttonPressed()) 
+		  while (buttonPressed())
 		  {  //wait for button to be released
 			 // do nothing, wait for button to be released
 		  }
 		  delay(100);   //short delay to debounce button
 	  } //end if (buttonPressed())
+
+	  // Go to current ROV run state
+	  if (rovRunState == ROV_UNINITIALIZED_PI) // ROV mode is enabled and connection settings ready - try to connect to host
+	  {
+		  // Intialize SPI communiciation
+
+	  }
+	  else if (rovRunState == ROV_INITIALIZED_PI) // ROV mode has now been initialized to the raspberry pi
+	  {
+		  // Serial connection established - awaiting application connection
+	  }
+	  else if (rovRunState == ROV_CONTROL_ENABLED_PI)
+	  {
+		  // Communicating with remote control application - Receive commands send - send feed back - maintain heartbeat
+
+	  }
 
 	  SPI_Handler();  //checks to see if SPI communication (usually motor command signals from Raspberry Pi) has been received
 					  //if a motor control message is received from Pi, it will set runningMode to zero and break out of this behavior
