@@ -205,12 +205,9 @@ void PIC_ReadResetStatus(void){                       //TARGET REGISTER: 16   Re
 void PIC_SendUART(const String& TxString){                       //TARGET REGISTER: 17   Read copy of PIC PCON register following most recent reset                           
   regTarget = 17;
   byte bufferLength = TxString.length();
-  //Serial.println(bufferLength);
-  char charBuf[bufferLength+1];
-  TxString.toCharArray(charBuf, bufferLength+1);
-
-  for (byte counter = 0; counter <= bufferLength; counter++){
-    I2CData[counter] = charBuf[counter];
+  Serial.println(bufferLength);
+  for (byte counter = 0; counter <= TxString.length(); counter++){
+    I2CData[counter] = TxString[counter];
     //Serial.print(I2CData[counter], HEX); Serial.print(" ");
   }
   //Serial.println();

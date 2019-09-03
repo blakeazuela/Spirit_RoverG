@@ -107,6 +107,7 @@ void loop(){
 	  if (buttonPressed())
 	  {
 		  setAllPixelsRGB(0, 10, 10);
+		  runningMode = 2;
 		  motors(0, 0);  //make sure motors are stopped
 		  offChirp();   //make sure chirp is turned off
 		  showRunningMode(runningMode);
@@ -177,8 +178,8 @@ void loop(){
 	  if (buttonPressed()) 
 	  {
 		  setAllPixelsRGB(0, 10, 10);
-		  runningMode = 2;
-		  showRunningMode(running);
+		  runningMode = 3;
+		  showRunningMode(runningMode);
 		  delay(100);   //short delay to debounce button
 		  motors(0, 0);  //make sure motors are off when leaving this mode
 		  offChirp();   //mkae sure chirp is off when leaving this mode
@@ -251,7 +252,7 @@ void loop(){
 		  if (buttonPressed()) 
 		  {
 			  setAllPixelsRGB(0, 10, 10);
-			  runningMode = 3;
+			  runningMode = 4;
 			  setAllPixelsRGB(0, 0, 0);
 			  showRunningMode(runningMode);
 			  onEyes(10, 10, 0);
@@ -341,7 +342,7 @@ void loop(){
 		  setAllPixelsRGB(0, 10, 10);
 		  motors(0, 0);  //make sure motors are stopped
 		  offChirp();   //make sure chirp is turned off
-		  runningMode = 4;  //Move to ROV mode
+		  runningMode = 1;  //Move to ROV mode
 		  showRunningMode(runningMode);
 		  delay(100);   //short delay to debounce button
 		  while (buttonPressed()) 
